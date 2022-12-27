@@ -1,11 +1,46 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "@next/font/google";
+import {
+  Avatar,
+  Button,
+  Divider,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import { Box } from "@mui/system";
 
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [list, setList] = useState([]);
+  const [url, setUrl] = useState("");
+  const [qty, setQty] = useState(1);
+
+  const adicionarNaLista = () => {
+    setList([
+      ...list, //Esses tres pontinhos copiam o conteúdo da variável lista
+      {
+        title: qty + "x Porta Potti 20L",
+        image:
+          "https://www.tradeinn.com/f/13899/138995864/thetford-banheiro-porta-potti--135.jpg",
+        price: 280.2,
+        url: url,
+        qty: 1,
+      },
+    ]);
+  };
+
+  const removerDaLista = (indice) => {
+    //Remover o elemento[indice] da lista usando setState
+	//Código aqui
+	//setList(novaListaAqui);
+  };
+
   return (
     <>
       <Head>
@@ -14,110 +49,82 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
+      <main>
+        <Box
+          sx={{
+            maxWidth: 800,
+            margin: "0 auto",
+            mt: 5,
+          }}
+        >
+          <Box>
+            <Typography
+              variant="h2"
+              align="center"
+              fontWeight="bold"
+              sx={{
+                mb: 10,
+              }}
             >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
+              Reforma do Dino
+            </Typography>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "80% 20% 9%",
+                gridColumnGap: "20px",
+              }}
+            >
+              <TextField
+                placeholder="URL do produto"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
               />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+              <TextField
+                placeholder="Qtd"
+                value={qty}
+                onChange={(e) => setQty(e.target.value)}
+              />
+              <Button variant="outlined" onClick={adicionarNaLista}>
+                Ok
+              </Button>
+            </Box>
+            <List>
+              {list.map((item) => (
+                <>
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt="" src={item.image} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={item.title}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            sx={{ display: "inline" }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          ></Typography>
+                          {item.url}
+                        </React.Fragment>
+                      }
+                    />
+                    <Typography
+                      sx={{
+                        color: "green",
+                      }}
+                    >
+                      {item.price}
+                    </Typography>
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </>
+              ))}
+            </List>
+          </Box>
+        </Box>
       </main>
     </>
-  )
+  );
 }
